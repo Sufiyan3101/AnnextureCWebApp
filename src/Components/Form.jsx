@@ -10,14 +10,27 @@ const Form = () => {
 
     // This handles the state of the form data 
     const [formData, setFormData] = useState({
-        particulars: "",
+        asset_code: "",
+        project_no: "",
+        po_no: "",
+        intendor_name: "",
+        technical_specification: "",
+        make: "",
+        model: "",
+        rating: "",
+        asset_classification: "",
         purchaseDate: "",
         cost: "",
-        classification: "",
+        store_classification: "",
         assignedTo: "",
         location: "",
     });
     const [locations, setLocations] = useState([]);
+    const [projectNumber, setProjectNumber] = useState([]);
+    const [assetCode, setAssetCode] = useState([]);
+    const [poNumber, setPONumber] = useState([]);
+    const [intendorName, setIntendorName] = useState([]);
+    const [assignedTo, setAssignedTo] = useState([]);
     const API = import.meta.env.VITE_API_URL;
 
     const fetchLocations = async () => {
@@ -29,8 +42,58 @@ const Form = () => {
         }
     };
 
+    const fetchProjectNumber = async () => {
+        try {
+            const res = await axios.get(`${API}/project-number`);
+            setProjectNumber(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const fetchAssetCode = async () => {
+        try {
+            const res = await axios.get(`${API}/asset-code`);
+            setAssetCode(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const fetchPONumber = async () => {
+        try {
+            const res = await axios.get(`${API}/po-number`);
+            setPONumber(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const fetchIntendorName = async () => {
+        try {
+            const res = await axios.get(`${API}/intendor-name`);
+            setIntendorName(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const fetchAssignedTo = async () => {
+        try {
+            const res = await axios.get(`${API}/assigned-to`);
+            setAssignedTo(res.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     useEffect(() => {
         fetchLocations();
+        fetchProjectNumber();
+        fetchAssetCode();
+        fetchPONumber();
+        fetchIntendorName();
+        fetchAssignedTo();
     }, []);
 
 
@@ -64,16 +127,24 @@ const Form = () => {
     // When user click on clear button, this function runs
     const handleClear = () => {
         setFormData({
-            particulars: "",
+            asset_code: "",
+            project_no: "",
+            po_no: "",
+            intendor_name: "",
+            technical_specification: "",
+            make: "",
+            model: "",
+            rating: "",
+            asset_classification: "",
             purchaseDate: "",
             cost: "",
-            classification: "",
+            store_classification: "",
             assignedTo: "",
             location: "",
         });
     };
 
-    // This function is to style location field
+    // This function is to style CreatableSelect field
     const customStyles = {
         control: (provided, state) => ({
             ...provided,
@@ -150,14 +221,14 @@ const Form = () => {
 
         // This is the main screen 
 
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen overflow-hidden">
             <Header />
 
             {/* This is the overlay of the form */}
 
-            <div className="flex-1 bg-[#27374D] p-4 md:p-8">
-                <div className="w-full mx-auto bg-[#253856] text-white rounded-xl shadow-md p-6">
-                    <h2 className="text-2xl font-semibold mb-6  w-fit py-2 rounded-lg">
+            <div className="flex-1 bg-[#27374D] p-4">
+                <div className="w-full max-h-[calc(100vh-80px)] mx-auto bg-[#253856] text-white rounded-xl shadow-md p-5 overflow-auto">
+                    <h2 className="text-2xl font-semibold mb-4  w-fit py-2 rounded-lg">
                         Add Asset Details
                     </h2>
 
@@ -165,19 +236,168 @@ const Form = () => {
                         onSubmit={handleSubmit}
                         className="grid grid-cols-1 md:grid-cols-2 gap-6"
                     >
-                        {/* Particulars */}
-                        <div className="md:col-span-2">
+
+                        {/* asset_code */}
+                        <div>
                             <label className="block mb-2 font-medium">
-                                Particulars of Asset
+                                Asset Code
                             </label>
-                            <textarea
-                                rows={9}
-                                required
-                                name="particulars"
-                                value={formData.particulars}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
-                                placeholder="Enter asset particulars..."
+                            <CreatableSelect
+                                menuPlacement="bottom"
+                                styles={customStyles}
+                                options={assetCode}
+                                isClearable
+                                placeholder="Select or type asset code..."
+                                value={
+                                    formData.asset_code
+                                        ? {
+                                            label: formData.asset_code,
+                                            value: formData.asset_code,
+                                        }
+                                        : null
+                                }
+                                onChange={(selected) =>
+                                    setFormData({
+                                        ...formData,
+                                        asset_code: selected ? selected.value : "",
+                                    })
+                                }
+                                onCreateOption={(inputValue) => {
+                                    const newOption = {
+                                        label: inputValue,
+                                        value: inputValue,
+                                    };
+
+                                    setAssetCode((prev) => [...prev, newOption]);
+
+                                    setFormData({
+                                        ...formData,
+                                        asset_code: inputValue,
+                                    });
+                                }}
+                            />
+                        </div>
+
+                        {/* project_number */}
+                       <div>
+                            <label className="block mb-2 font-medium">
+                                Project Number
+                            </label>
+                            <CreatableSelect
+                                menuPlacement="bottom"
+                                styles={customStyles}
+                                options={projectNumber}
+                                isClearable
+                                placeholder="Select or type project number..."
+                                value={
+                                    formData.project_no
+                                        ? {
+                                            label: formData.project_no,
+                                            value: formData.project_no,
+                                        }
+                                        : null
+                                }
+                                onChange={(selected) =>
+                                    setFormData({
+                                        ...formData,
+                                        project_no: selected ? selected.value : "",
+                                    })
+                                }
+                                onCreateOption={(inputValue) => {
+                                    const newOption = {
+                                        label: inputValue,
+                                        value: inputValue,
+                                    };
+
+                                    setProjectNumber((prev) => [...prev, newOption]);
+
+                                    setFormData({
+                                        ...formData,
+                                        project_no: inputValue,
+                                    });
+                                }}
+                            />
+                        </div>
+
+                        {/* po_number */}
+                        <div>
+                            <label className="block mb-2 font-medium">
+                                Project Number
+                            </label>
+                            <CreatableSelect
+                                menuPlacement="bottom"
+                                styles={customStyles}
+                                options={poNumber}
+                                isClearable
+                                placeholder="Select or type po number..."
+                                value={
+                                    formData.po_no
+                                        ? {
+                                            label: formData.po_no,
+                                            value: formData.po_no,
+                                        }
+                                        : null
+                                }
+                                onChange={(selected) =>
+                                    setFormData({
+                                        ...formData,
+                                        po_no: selected ? selected.value : "",
+                                    })
+                                }
+                                onCreateOption={(inputValue) => {
+                                    const newOption = {
+                                        label: inputValue,
+                                        value: inputValue,
+                                    };
+
+                                    setPONumber((prev) => [...prev, newOption]);
+
+                                    setFormData({
+                                        ...formData,
+                                        po_no: inputValue,
+                                    });
+                                }}
+                            />
+                        </div>
+
+                        {/* Intendor Name */}
+                        <div>
+                            <label className="block mb-2 font-medium">
+                                Intendor Name
+                            </label>
+                            <CreatableSelect
+                                menuPlacement="top"
+                                styles={customStyles}
+                                options={intendorName}
+                                isClearable
+                                placeholder="Select or type Intendor Name"
+                                value={
+                                    formData.intendor_name
+                                        ? {
+                                            label: formData.intendor_name,
+                                            value: formData.intendor_name,
+                                        }
+                                        : null
+                                }
+                                onChange={(selected) =>
+                                    setFormData({
+                                        ...formData,
+                                        intendor_name: selected ? selected.value : "",
+                                    })
+                                }
+                                onCreateOption={(inputValue) => {
+                                    const newOption = {
+                                        label: inputValue,
+                                        value: inputValue,
+                                    };
+
+                                    setIntendorName((prev) => [...prev, newOption]);
+
+                                    setFormData({
+                                        ...formData,
+                                        intendor_name: inputValue,
+                                    });
+                                }}
                             />
                         </div>
 
@@ -208,6 +428,93 @@ const Form = () => {
                             />
                         </div>
 
+                        {/* Particulars */}
+                        <div>
+                            <label className="block mb-2 font-medium">
+                                Particulars of Asset (Technical Specification)
+                            </label>
+                            <textarea
+                                rows={1}
+                                required
+                                name="technical_specification"
+                                value={formData.technical_specification}
+                                onChange={handleChange}
+                                className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
+                                placeholder="Enter asset particulars..."
+                            />
+                        </div>
+
+                        {/* make  */}
+                        <div>
+                            <label className="block mb-2 font-medium">
+                                Make
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                name="make"
+                                value={formData.make}
+                                onChange={handleChange}
+                                className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
+                                placeholder="Enter make..."
+                            />
+                        </div>
+
+                        {/* model  */}
+                        <div>
+                            <label className="block mb-2 font-medium">
+                                Model
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                name="model"
+                                value={formData.model}
+                                onChange={handleChange}
+                                className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
+                                placeholder="Enter model..."
+                            />
+                        </div>
+
+                        {/* rating  */}
+                        <div>
+                            <label className="block mb-2 font-medium">
+                                Rating
+                            </label>
+                            <input
+                                type="text"
+                                required
+                                name="rating"
+                                value={formData.rating}
+                                onChange={handleChange}
+                                className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
+                                placeholder="Enter rating..."
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block mb-2 font-medium">
+                                Asset Classification
+                            </label>
+                            <select
+                                name="asset_classification"
+                                value={formData.asset_classification}
+                                onChange={handleChange}
+                                className={`w-full border rounded-lg px-3 py-2.5 bg-[#253856] border-gray-300 focus:outline-none focus:ring focus:ring-gray-400 ${formData.asset_classification === ""
+                                        ? "text-gray-400"
+                                        : "text-white"
+                                    }`}
+                            >
+                                <option value="" disabled>
+                                    Select Asset Classification
+                                </option>
+                                <option value="Lab Equipment">Lab Equipment</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Computer/Server">Computer/Server</option>
+                            </select>
+                        </div>
+
+
                         {/* Cost */}
                         <div>
                             <label className="block mb-2 font-medium">
@@ -224,7 +531,7 @@ const Form = () => {
                             />
                         </div>
 
-                        {/* Classification */}
+                        {/* Store Classification */}
                         <div>
                             <label className="block mb-2 font-medium">
                                 Classification of the Store
@@ -232,8 +539,8 @@ const Form = () => {
                             <input
                                 type="text"
                                 required
-                                name="classification"
-                                value={formData.classification}
+                                name="store_classification"
+                                value={formData.store_classification}
                                 onChange={handleChange}
                                 className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
                                 placeholder="Enter classification"
@@ -245,19 +552,44 @@ const Form = () => {
                             <label className="block mb-2 font-medium">
                                 Assigned To
                             </label>
-                            <input
-                                type="text"
-                                required
-                                name="assignedTo"
-                                value={formData.assignedTo}
-                                onChange={handleChange}
-                                className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
-                                placeholder="Enter assignee"
+                            <CreatableSelect
+                                menuPlacement="top"
+                                styles={customStyles}
+                                options={assignedTo}
+                                isClearable
+                                placeholder="Select or type Assigned Person Name"
+                                value={
+                                    formData.assignedTo
+                                        ? {
+                                            label: formData.assignedTo,
+                                            value: formData.assignedTo,
+                                        }
+                                        : null
+                                }
+                                onChange={(selected) =>
+                                    setFormData({
+                                        ...formData,
+                                        assignedTo: selected ? selected.value : "",
+                                    })
+                                }
+                                onCreateOption={(inputValue) => {
+                                    const newOption = {
+                                        label: inputValue,
+                                        value: inputValue,
+                                    };
+
+                                    setAssignedTo((prev) => [...prev, newOption]);
+
+                                    setFormData({
+                                        ...formData,
+                                        assignedTo: inputValue,
+                                    });
+                                }}
                             />
                         </div>
 
                         {/* Location */}
-                        <div className="md:col-span-2">
+                        <div>
                             <label className="block mb-2 font-medium">
                                 Location
                             </label>
@@ -316,8 +648,8 @@ const Form = () => {
                         </div>
                     </form>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
