@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Header from "./Header";
+import Header from "../Components/Header";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { CircularTextAnimation } from "./SplashScreen";
+import { CircularTextAnimation } from "../Components/SplashScreen";
 
 const Dashboard = () => {
   const [tableData, setTableData] = useState([]);

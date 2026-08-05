@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <div className="w-screen h-[6vh] sm:h-[10vh] bg-[#1E293B] text-white flex justify-between px-10 align-middle shadow-2xl">
+        <div className="w-screen h-[6vh] sm:h-[10vh] bg-[#182740] text-white flex justify-between pl-10 pr-5 align-middle shadow-2xl">
             <div className="text-2xl flex justify-center items-center tracking-widest">
                 Asset Management
             </div>

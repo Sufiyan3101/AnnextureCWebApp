@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Dashboard from "./Components/Dashboard";
-import Form from "./Components/Form";
+import Dashboard from "./Pages/Dashboard";
+import Form from "./Pages/Form";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { SplashScreen } from "./Components/SplashScreen";
+import Login from "./Pages/Login";
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -28,6 +29,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/form" element={<Form />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </BrowserRouter>
   )
