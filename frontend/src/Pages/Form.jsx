@@ -32,58 +32,60 @@ const Form = () => {
     const [poNumber, setPONumber] = useState([]);
     const [intendorName, setIntendorName] = useState([]);
     const [assignedTo, setAssignedTo] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
 
     const fetchLocations = async () => {
         try {
-            const res = await API.get(`${API}/locations`);
+            const res = await API.get(`/locations`);
             setLocations(res.data);
         } catch (err) {
-            console.log(err);
+            setErrorMessage(err);
         }
     };
 
     const fetchProjectNumber = async () => {
         try {
-            const res = await axios.get(`${API}/project-number`);
+            const res = await API.get(`/project-number`);
             setProjectNumber(res.data);
         } catch (err) {
-            console.log(err);
+            setErrorMessage(err);
         }
     };
 
     const fetchAssetCode = async () => {
         try {
-            const res = await axios.get(`${API}/asset-code`);
+            const res = await API.get(`/asset-code`);
             setAssetCode(res.data);
         } catch (err) {
-            console.log(err);
+            setErrorMessage(err);
         }
     };
 
     const fetchPONumber = async () => {
         try {
-            const res = await axios.get(`${API}/po-number`);
+            const res = await API.get(`/po-number`);
             setPONumber(res.data);
         } catch (err) {
-            console.log(err);
+            setErrorMessage(err);
         }
     };
 
     const fetchIntendorName = async () => {
         try {
-            const res = await axios.get(`${API}/intendor-name`);
+            const res = await API.get(`/intendor-name`);
             setIntendorName(res.data);
         } catch (err) {
-            console.log(err);
+            setErrorMessage(err);
         }
     };
 
     const fetchAssignedTo = async () => {
         try {
-            const res = await axios.get(`${API}/assigned-to`);
+            const res = await API.get(`/assigned-to`);
             setAssignedTo(res.data);
         } catch (err) {
-            console.log(err);
+            setErrorMessage(err);
         }
     };
 
@@ -110,16 +112,17 @@ const Form = () => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(
-                `${API}/post-data`,
+            const response = await API.post(
+                `/post-data`,
                 formData
             );
 
-            console.log(response.data);
-            alert("Data saved successfully!");
+            setErrorMessage("Data saved successfully!");
+            setShowAlert(true);
         } catch (error) {
-            console.error(error);
-            alert("Failed to save data.");
+            setErrorMessage(error);
+            setErrorMessage("Failed to save data.");
+            setShowAlert(true)
         }
         handleClear();
     };
@@ -224,6 +227,26 @@ const Form = () => {
         <div className="flex flex-col min-h-screen overflow-hidden">
             <Header />
 
+            {/* ── Alert ── */}
+            {showAlert && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/30">
+                    <div className="bg-green-800 rounded-2xl p-5 w-80 shadow-xl">
+                        <p className="text-lg font-bold text-white mb-1">Alert</p>
+                        <p className="text-sm text-white mb-5">{errorMessage}</p>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => setShowAlert(false)}
+                                className="px-4 py-1.5 border border-white text-white text-sm rounded-lg
+                              hover:bg-white hover:text-green-800 transition-all duration-300 cursor-pointer"
+                            >
+                                OK
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
             {/* This is the overlay of the form */}
 
             <div className="flex-1 bg-[#27374D] p-4">
@@ -279,7 +302,7 @@ const Form = () => {
                         </div>
 
                         {/* project_number */}
-                       <div>
+                        <div>
                             <label className="block mb-2 font-medium">
                                 Project Number
                             </label>
@@ -501,8 +524,8 @@ const Form = () => {
                                 value={formData.asset_classification}
                                 onChange={handleChange}
                                 className={`w-full border rounded-lg px-3 py-2.5 bg-[#253856] border-gray-300 focus:outline-none focus:ring focus:ring-gray-400 ${formData.asset_classification === ""
-                                        ? "text-gray-400"
-                                        : "text-white"
+                                    ? "text-gray-400"
+                                    : "text-white"
                                     }`}
                             >
                                 <option value="" disabled>

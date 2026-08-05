@@ -102,50 +102,53 @@ const Dashboard = () => {
 
       <div className="flex-1 flex flex-col p-2 md:p-4 overflow-hidden">
         {/* Search Area */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-4">
-          <div className="flex gap-3 sm:w-2xl">
+        <div className="flex flex-col lg:flex-row gap-3 mb-4 w-full">
+
+          {/* Search */}
+          <div className="flex gap-3 w-full lg:w-[38%]">
             <input
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search by Asset Code, particulars of Asset, AssignedTo & Location..."
-              className="w-full border border-gray-500 rounded-lg px-3 py-2 sm:py-1 outline-none focus:ring focus:ring-gray-400 text-[8px] lg:text-base"
+              className="w-full border border-gray-500 rounded-lg px-3 py-2 outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base"
             />
 
             <button
               onClick={handleClear}
-              className="px-3 py-2 sm:py-1 border text-[10px] lg:text-base rounded-lg border-gray-500 cursor-pointer hover:bg-gray-500 transition-all duration-300 delay-200"
+              className="px-4 py-2 border border-gray-500 rounded-lg hover:bg-gray-500 transition-all duration-300 shrink-0 text-xs sm:text-sm lg:text-base"
             >
               Clear
             </button>
           </div>
 
-          <div className="flex gap-2 sm:w-4xl">
-            <select className={`w-full border rounded-lg border-gray-500 px-1 py-2.5 sm:py-1 outline-none focus:ring bg-[#27374D] focus:ring-gray-400 text-[10px] lg:text-base z-50 ${intendorName === ""
-              ? "text-gray-400"
-              : "text-white"
-              }`} value={intendorName} onChange={(e) => setIntendorName(e.target.value)}>
-              <option className="text-[8px] sm:text-base" value="">
-                Intendor Name
-              </option>
-              <option className="text-[8px] sm:text-base" value="Shiv sir">
-                Shiv sir
-              </option>
-              <option className="text-[8px] sm:text-base" value="Praveen sir">
-                Praveen sir
-              </option>
-              <option className="text-[8px] sm:text-base" value="Nikhil sir">
-                Nikhil sir
-              </option>
+          {/* Filters */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 w-full lg:w-[42%]">
+
+            <select
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${intendorName === ""
+                ? "text-gray-400"
+                : "text-white"
+                }`}
+              value={intendorName}
+              onChange={(e) => setIntendorName(e.target.value)}
+            >
+              <option value="">Intendor Name</option>
+              <option value="Shiv sir">Shiv sir</option>
+              <option value="Praveen sir">Praveen sir</option>
+              <option value="Nikhil sir">Nikhil sir</option>
             </select>
 
-            <select className={`w-full border rounded-lg border-gray-500 px-1 py-2 sm:py-1 outline-none focus:ring bg-[#27374D] focus:ring-gray-400 text-[10px] lg:text-base z-50 ${projectNumber === ""
-              ? "text-gray-400"
-              : "text-white"
-              }`} value={projectNumber} onChange={(e) => setProjectNumber(e.target.value)}>
-              <option className="text-[8px] sm:text-base" value="">
-                Project Number
-              </option>
+            <select
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${projectNumber === ""
+                ? "text-gray-400"
+                : "text-white"
+                }`}
+              value={projectNumber}
+              onChange={(e) => setProjectNumber(e.target.value)}
+            >
+              <option value="">Project Number</option>
+
               {fetchProject.map((item) => (
                 <option key={item.value} value={item.value}>
                   {item.label}
@@ -153,13 +156,16 @@ const Dashboard = () => {
               ))}
             </select>
 
-            <select className={`w-full border rounded-lg border-gray-500 px-1 py-2 sm:py-1 outline-none focus:ring bg-[#27374D] focus:ring-gray-400 text-[10px] lg:text-base z-50 ${poNumber === ""
-              ? "text-gray-400"
-              : "text-white"
-              }`} value={poNumber} onChange={(e) => setPONumber(e.target.value)}>
-              <option className="text-[8px] sm:text-base" value="">
-                PO Number
-              </option>
+            <select
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${poNumber === ""
+                ? "text-gray-400"
+                : "text-white"
+                }`}
+              value={poNumber}
+              onChange={(e) => setPONumber(e.target.value)}
+            >
+              <option value="">PO Number</option>
+
               {fetchPO.map((item) => (
                 <option key={item.value} value={item.value}>
                   {item.label}
@@ -167,49 +173,49 @@ const Dashboard = () => {
               ))}
             </select>
 
-            <select className={`w-full border rounded-lg border-gray-500 px-1 py-2 sm:py-1 outline-none focus:ring bg-[#27374D] focus:ring-gray-400 text-[10px] lg:text-base z-50 ${equipmentType === ""
-              ? "text-gray-400"
-              : "text-white"
-              }`} value={equipmentType} onChange={(e) => setEquipmentType(e.target.value)}>
-              <option className="text-[8px] sm:text-base" value="">
-                Equipment type
-              </option>
-              <option className="text-[8px] sm:text-base" value="Lab Equipment">
-                Lab Equipment
-              </option>
-              <option className="text-[8px] sm:text-base" value="Furniture">
-                Furniture
-              </option>
-              <option className="text-[8px] sm:text-base" value="Computer/Server">
-                Computer/Server
-              </option>
+            <select
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${equipmentType === ""
+                ? "text-gray-400"
+                : "text-white"
+                }`}
+              value={equipmentType}
+              onChange={(e) => setEquipmentType(e.target.value)}
+            >
+              <option value="">Equipment Type</option>
+              <option value="Lab Equipment">Lab Equipment</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Computer/Server">Computer/Server</option>
             </select>
+
           </div>
 
-          <div className="flex gap-3">
-            <DatePicker
-              selected={fromDate}
-              onChange={(date) => setFromDate(date)}
-              dateFormat="dd-MM-yyyy"
-              placeholderText="dd-mm-yyyy"
-              className="w-full text-center border rounded-lg border-gray-500 px-1 py-1 sm:py-1 outline-none focus:ring focus:ring-gray-400 text-[10px] lg:text-base z-50"
-              calendarClassName="rounded-lg shadow-lg"
-              popperPlacement="bottom-start"
-            />
+          {/* Dates */}
+          <div className="flex gap-3 w-full lg:w-[20%]">
 
-            <DatePicker
-              selected={toDate}
-              onChange={(date) => setToDate(date)}
-              dateFormat="dd-MM-yyyy"
-              placeholderText="dd-mm-yyyy"
-              className="w-full text-center border rounded-lg border-gray-500 px-1 py-1 sm:py-1 outline-none focus:ring focus:ring-gray-400 text-[10px] lg:text-base z-50"
-              calendarClassName="rounded-lg shadow-lg"
-              popperPlacement="bottom-start"
-              minDate={fromDate}
-            />
+            <div className="w-full">
+              <DatePicker
+                selected={fromDate}
+                onChange={(date) => setFromDate(date)}
+                dateFormat="dd-MM-yyyy"
+                placeholderText="dd-mm-yyyy"
+                className="w-full text-center border rounded-lg border-gray-500 py-2 outline-none focus:ring focus:ring-gray-400"
+              />
+            </div>
+
+            <div className="w-full">
+              <DatePicker
+                selected={toDate}
+                onChange={(date) => setToDate(date)}
+                dateFormat="dd-MM-yyyy"
+                placeholderText="dd-mm-yyyy"
+                minDate={fromDate}
+                className="w-full text-center border rounded-lg border-gray-500 py-2 outline-none focus:ring focus:ring-gray-400"
+              />
+            </div>
+
           </div>
+
         </div>
-
         {/* Scrollable Table */}
         <div className="flex-1 rounded-xl border border-gray-500 overflow-hidden">
           <div className="h-full overflow-y-auto">
@@ -317,7 +323,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

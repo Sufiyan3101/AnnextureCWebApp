@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
+import API from '../api/api.js'
 
 
 const Login = () => {
@@ -11,24 +12,26 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState("");
     const [showAlert, setShowAlert] = useState(false);
 
-    const API = import.meta.env.VITE_API_URL;
     const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${API}/login`, {
+            const res = await API.post(`/login`, {
                 email,
                 password,
             });
 
             localStorage.setItem("token", res.data.token);
+            localStorage.setItem("role", res.data.user.role);
 
             navigate("/");
 
         } catch (err) {
-            setErrorMessage(err.response.data.message);
+            setErrorMessage(
+                err.response?.data?.message || "Something went wrong"
+            );
             setShowAlert(true);
         }
     };
@@ -39,14 +42,14 @@ const Login = () => {
             {/* ── Alert ── */}
             {showAlert && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/30">
-                    <div className="bg-red-400 rounded-2xl p-5 w-80 shadow-xl">
+                    <div className="bg-red-800 rounded-2xl p-5 w-80 shadow-xl">
                         <p className="text-lg font-bold text-white mb-1">Alert</p>
                         <p className="text-sm text-white mb-5">{errorMessage}</p>
                         <div className="flex justify-end">
                             <button
                                 onClick={() => setShowAlert(false)}
                                 className="px-4 py-1.5 border border-white text-white text-sm rounded-lg
-                              hover:bg-white hover:text-red-400 transition-all duration-300 cursor-pointer"
+                              hover:bg-white hover:text-red-800 transition-all duration-300 cursor-pointer"
                             >
                                 OK
                             </button>
