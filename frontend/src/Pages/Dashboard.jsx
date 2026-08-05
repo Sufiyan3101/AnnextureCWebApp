@@ -4,6 +4,7 @@ import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CircularTextAnimation } from "../Components/SplashScreen";
+import API from '../api/api.js'
 
 const Dashboard = () => {
   const [tableData, setTableData] = useState([]);
@@ -21,13 +22,12 @@ const Dashboard = () => {
   const [equipmentType, setEquipmentType] = useState("");
   const [fetchProject, setFetchProject] = useState([]);
   const [fetchPO, setFetchPO] = useState([]);
-  const API = import.meta.env.VITE_API_URL;
   const limit = 50;
 
   // This will fetch data
   const fetchData = async () => {
     try {
-      const res = await axios.get(`${API}/data`, {
+      const res = await API.get(`/data`, {
         params: {
           page,
           limit,
@@ -52,7 +52,7 @@ const Dashboard = () => {
 
   const fetchProjectFCN = async () => {
     try {
-      const res = await axios.get(`${API}/project-number`);
+      const res = await API.get(`/project-number`);
       setFetchProject(res.data);
     } catch (err) {
       console.log(err);
@@ -61,7 +61,7 @@ const Dashboard = () => {
 
   const fetchPoFCN = async () => {
     try {
-      const res = await axios.get(`${API}/po-number`);
+      const res = await API.get(`/po-number`);
       setFetchPO(res.data);
     } catch (err) {
       console.log(err);

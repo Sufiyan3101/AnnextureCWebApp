@@ -1,10 +1,11 @@
 import express from "express";
 import pool from "./db-connection.js";
+import authenticateToken from "./auth.js";
 
 const router = express.Router();
 
 // ================= Fetch Data =================
-router.get("/data", async (req, res) => {
+router.get("/data", authenticateToken, async (req, res) => {
     try {
         const page = Number(req.query.page) || 1;
         const limit = Number(req.query.limit) || 50;
@@ -108,7 +109,7 @@ router.get("/data", async (req, res) => {
 });
 
 // ================= Project Number =================
-router.get("/project-number", async (req, res) => {
+router.get("/project-number", authenticateToken,async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT DISTINCT project_number
@@ -129,7 +130,7 @@ router.get("/project-number", async (req, res) => {
 });
 
 // ================= PO Number =================
-router.get("/po-number", async (req, res) => {
+router.get("/po-number", authenticateToken, async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT DISTINCT po_number
@@ -150,7 +151,7 @@ router.get("/po-number", async (req, res) => {
 });
 
 // ================= Asset Code =================
-router.get("/asset-code", async (req, res) => {
+router.get("/asset-code", authenticateToken, async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT DISTINCT assetcode
@@ -171,7 +172,7 @@ router.get("/asset-code", async (req, res) => {
 });
 
 // ================= Intendor Name =================
-router.get("/intendor-name", async (req, res) => {
+router.get("/intendor-name", authenticateToken, async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT DISTINCT intendor_name
@@ -192,7 +193,7 @@ router.get("/intendor-name", async (req, res) => {
 });
 
 // ================= Locations =================
-router.get("/locations", async (req, res) => {
+router.get("/locations", authenticateToken, async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT DISTINCT location
@@ -213,7 +214,7 @@ router.get("/locations", async (req, res) => {
 });
 
 // ================= Assigned To =================
-router.get("/assigned-to", async (req, res) => {
+router.get("/assigned-to", authenticateToken, async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT DISTINCT assignedto
@@ -234,7 +235,7 @@ router.get("/assigned-to", async (req, res) => {
 });
 
 // ================= Insert Data =================
-router.post("/post-data", async (req, res) => {
+router.post("/post-data", authenticateToken, async (req, res) => {
     const {
         asset_code,
         project_no,

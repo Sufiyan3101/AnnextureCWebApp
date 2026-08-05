@@ -5,6 +5,7 @@ import CreatableSelect from "react-select/creatable";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
+import API from '../api/api'
 
 const Form = () => {
 
@@ -31,11 +32,10 @@ const Form = () => {
     const [poNumber, setPONumber] = useState([]);
     const [intendorName, setIntendorName] = useState([]);
     const [assignedTo, setAssignedTo] = useState([]);
-    const API = import.meta.env.VITE_API_URL;
 
     const fetchLocations = async () => {
         try {
-            const res = await axios.get(`${API}/locations`);
+            const res = await API.get(`${API}/locations`);
             setLocations(res.data);
         } catch (err) {
             console.log(err);
@@ -234,7 +234,7 @@ const Form = () => {
 
                     <form
                         onSubmit={handleSubmit}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
 
                         {/* asset_code */}
@@ -630,11 +630,11 @@ const Form = () => {
                         </div>
 
                         {/* Buttons */}
-                        <div className="md:col-span-2 flex justify-end gap-4">
+                        <div className="md:col-span-2 lg:col-span-3 flex justify-end gap-4">
                             <button
                                 type="button"
                                 onClick={handleClear}
-                                className="px-6 py-2 rounded-lg border border-gray-400 hover:bg-gray-200 transition hover:cursor-pointer"
+                                className="px-6 py-2 rounded-lg border border-gray-400 hover:bg-gray-200 hover:text-black transition hover:cursor-pointer"
                             >
                                 Clear
                             </button>

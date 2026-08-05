@@ -4,6 +4,7 @@ import Form from "./Pages/Form";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { SplashScreen } from "./Components/SplashScreen";
 import Login from "./Pages/Login";
+import ProtectedRoute from "./api/protected_routes";
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -11,7 +12,7 @@ const App = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 4000); // Your animation duration
+    }, 4000); // animation duration
 
     return () => clearTimeout(timer);
   }, []);
@@ -25,13 +26,28 @@ const App = () => {
   }
 
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/form" element={<Form />} />
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/form"
+          element={
+            <ProtectedRoute>
+              <Form />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 export default App;
