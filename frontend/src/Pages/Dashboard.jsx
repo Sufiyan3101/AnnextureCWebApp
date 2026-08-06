@@ -22,6 +22,8 @@ const Dashboard = () => {
   const [equipmentType, setEquipmentType] = useState("");
   const [fetchProject, setFetchProject] = useState([]);
   const [fetchPO, setFetchPO] = useState([]);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [detailInfo, setDetailInfo] = useState(null);
   const limit = 50;
 
   // This will fetch data
@@ -96,9 +98,155 @@ const Dashboard = () => {
     setEquipmentType("");
   };
 
+  const handleView = (asset) => {
+    setDetailInfo(asset);
+    setShowOverlay(true);
+  }
+
   return (
     <div className="flex bg-[#27374D] text-white flex-col h-screen w-full">
       <Header />
+
+      {showOverlay && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
+
+            {!setDetailInfo ? (
+              <div className="p-10 text-center">
+                Loading...
+              </div>
+            ) : (
+              <>
+
+                {/* Header */}
+                <div className="flex items-center justify-between border-b px-6 pt-4">
+                  <h2 className="text-xl font-bold text-gray-800">
+                    Detailed Information of Asset
+                  </h2>
+
+
+                  <button
+                    onClick={() => setShowOverlay(false)}
+                    className="rounded-lg px-3 py-1 text-xl font-bold text-gray-500 hover:bg-gray-100"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Content */}
+                <div className="pl-6 pt-2 pb-6 pr-6">
+
+                  <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Asset code : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.assetcode || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Project number : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.project_number || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">PO number : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.po_number || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Intendor name : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.intendor_name || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Date of purchase : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.dateofpurchase.split("T")[0] || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Particular of asset : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.technical_specification || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Make : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.make || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Model : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.model || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Rating : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.rating || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Asset classification : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.asset_classification || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Cost of store : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.costofstore || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Classification of store : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.classification_of_store || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Assigned To : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.assignedto || "Not defined"}
+                      </p>
+                    </div>
+
+                    <div className="rounded-xl border p-1">
+                      <p className="text-sm text-gray-500">Location : </p>
+                      <p className="mt-1 font-semibold text-gray-800">
+                        {detailInfo?.location || "Not defined"}
+                      </p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </>
+            )}
+
+          </div>
+        </div>
+      )}
+
 
       <div className="flex-1 flex flex-col p-2 md:p-4 overflow-hidden">
         {/* Search Area */}
@@ -116,7 +264,7 @@ const Dashboard = () => {
 
             <button
               onClick={handleClear}
-              className="px-4 py-2 border border-gray-500 rounded-lg hover:bg-gray-500 transition-all duration-300 shrink-0 text-xs sm:text-sm lg:text-base"
+              className="px-4 py-2 border border-gray-500 rounded-lg hover:bg-gray-500 transition-all duration-300 shrink-0 text-xs sm:text-sm lg:text-base hover:cursor-pointer"
             >
               Clear
             </button>
@@ -227,10 +375,10 @@ const Dashboard = () => {
               <table className="min-w-full table-fixed border-collapse text-[10px] lg:text-base">
                 <thead className="sticky top-0 text-gray-100 bg-slate-700">
                   <tr>
-                    <th className="min-w-14 lg:min-w-32 px-3 py-2 border-r border-gray-500">
+                    <th className="min-w-14 lg:min-w-28 px-3 py-2 border-r border-gray-500">
                       Sr. No
                     </th>
-                    <th className="min-w-24 lg:min-w-40 px-3 py-2 border-r border-gray-500">
+                    <th className="min-w-24 lg:min-w-36 px-3 py-2 border-r border-gray-500">
                       Asset Code
                     </th>
                     <th className="min-w-60 lg:min-w-125 px-3 py-2 border-r border-gray-500">
@@ -251,7 +399,8 @@ const Dashboard = () => {
                     <th className="min-w-24 lg:min-w-40 px-3 py-2 border-r border-gray-500">
                       Assigned To
                     </th>
-                    <th className="min-w-24 lg:min-w-40 px-3 py-2">Location</th>
+                    <th className="min-w-24 lg:min-w-40 px-3 py-2 border-r border-gray-500">Location</th>
+                    <th className="min-w-24 lg:min-w-40 px-3 py-2">Action</th>
 
                   </tr>
                 </thead>
@@ -286,7 +435,11 @@ const Dashboard = () => {
                       <td className="px-3 py-2 min-w-24 border-r border-gray-500">
                         {row.assignedto}
                       </td>
-                      <td className="px-3 py-2 min-w-24">{row.location}</td>
+                      <td className="px-3 py-2 min-w-24 border-r border-gray-500">{row.location}</td>
+                      <td className="px-3 py-2 min-w-24">
+                        <button className="border px-3 py-0.5 rounded-md hover:bg-slate-800 hover:cursor-pointer transition-all duration-300" onClick={() => handleView(row)
+                        }>View</button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

@@ -345,7 +345,7 @@ const Form = () => {
                         {/* po_number */}
                         <div>
                             <label className="block mb-2 font-medium">
-                                Project Number
+                                Po Number
                             </label>
                             <CreatableSelect
                                 menuPlacement="bottom"
@@ -529,7 +529,7 @@ const Form = () => {
                                     }`}
                             >
                                 <option value="" disabled>
-                                    Select Asset Classification
+                                    Select Asset Classification...
                                 </option>
                                 <option value="Lab Equipment">Lab Equipment</option>
                                 <option value="Furniture">Furniture</option>
@@ -550,7 +550,7 @@ const Form = () => {
                                 value={formData.cost}
                                 onChange={handleChange}
                                 className="w-full border rounded-lg px-3 py-2 border-gray-300  focus:outline-none focus:ring focus:ring-gray-400"
-                                placeholder="Enter cost"
+                                placeholder="Enter cost..."
                             />
                         </div>
 
@@ -566,7 +566,7 @@ const Form = () => {
                                 value={formData.store_classification}
                                 onChange={handleChange}
                                 className="w-full border rounded-lg px-3 py-2 border-gray-300 focus:outline-none focus:ring focus:ring-gray-400"
-                                placeholder="Enter classification"
+                                placeholder="Enter classification..."
                             />
                         </div>
 
@@ -580,7 +580,7 @@ const Form = () => {
                                 styles={customStyles}
                                 options={assignedTo}
                                 isClearable
-                                placeholder="Select or type Assigned Person Name"
+                                placeholder="Select or type Assigned Person Name..."
                                 value={
                                     formData.assignedTo
                                         ? {
@@ -621,7 +621,7 @@ const Form = () => {
                                 styles={customStyles}
                                 options={locations}
                                 isClearable
-                                placeholder="Select or type location"
+                                placeholder="Select or type location..."
                                 value={
                                     formData.location
                                         ? {
