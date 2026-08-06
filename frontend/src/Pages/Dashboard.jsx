@@ -108,141 +108,139 @@ const Dashboard = () => {
       <Header />
 
       {showOverlay && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/40 p-4 overflow-y-auto">
+          <div className="flex min-h-full items-start sm:items-center justify-center py-6">
+            <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-2xl max-h-[90vh] flex flex-col">
 
-            {!setDetailInfo ? (
-              <div className="p-10 text-center">
-                Loading...
-              </div>
-            ) : (
-              <>
-
-                {/* Header */}
-                <div className="flex items-center justify-between border-b px-6 pt-4">
-                  <h2 className="text-xl font-bold text-gray-800">
-                    Detailed Information of Asset
-                  </h2>
-
-
-                  <button
-                    onClick={() => setShowOverlay(false)}
-                    className="rounded-lg px-3 py-1 text-xl font-bold text-gray-500 hover:bg-gray-100"
-                  >
-                    ✕
-                  </button>
+              {!detailInfo ? (
+                <div className="p-10 text-center">
+                  Loading...
                 </div>
+              ) : (
+                <>
+                  {/* Header */}
+                  <div className="flex items-center justify-between border-b px-6 py-4 shrink-0">
+                    <h2 className="text-xl font-bold text-gray-800">
+                      Detailed Information of Asset
+                    </h2>
 
-                {/* Content */}
-                <div className="pl-6 pt-2 pb-6 pr-6">
+                    <button
+                      onClick={() => setShowOverlay(false)}
+                      className="rounded-lg px-3 py-1 text-xl font-bold text-gray-500 hover:bg-gray-100"
+                    >
+                      ✕
+                    </button>
+                  </div>
 
-                  <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+                  {/* Scrollable Content */}
+                  <div className="overflow-y-auto pl-6 pr-6 pb-6 pt-1">
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Asset code : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.assetcode || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Asset code : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.assetcode || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Project number : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.project_number || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Project number : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.project_number || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">PO number : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.po_number || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">PO number : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.po_number || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Intendor name : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.intendor_name || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Intendor name : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.intendor_name || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Date of purchase : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.dateofpurchase.split("T")[0] || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Date of purchase : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.dateofpurchase.split("T")[0] || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Particular of asset : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.technical_specification || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Particular of asset : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.technical_specification || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Make : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.make || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Make : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.make || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Model : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.model || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Model : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.model || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Rating : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.rating || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Rating : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.rating || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Asset classification : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.asset_classification || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Asset classification : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.asset_classification || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Cost of store : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.costofstore || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Cost of store : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.costofstore || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Classification of store : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.classification_of_store || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Classification of store : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.classification_of_store || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Assigned To : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.assignedto || "Not defined"}
-                      </p>
-                    </div>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Assigned To : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.assignedto || "Not defined"}
+                        </p>
+                      </div>
 
-                    <div className="rounded-xl border p-1">
-                      <p className="text-sm text-gray-500">Location : </p>
-                      <p className="mt-1 font-semibold text-gray-800">
-                        {detailInfo?.location || "Not defined"}
-                      </p>
+                      <div className="rounded-xl border p-1">
+                        <p className="text-sm text-gray-500">Location : </p>
+                        <p className="mt-1 font-semibold text-gray-800">
+                          {detailInfo?.location || "Not defined"}
+                        </p>
+                      </div>
+
                     </div>
 
                   </div>
 
-                </div>
-
-              </>
-            )}
-
+                </>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -274,7 +272,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 w-full lg:w-[42%]">
 
             <select
-              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${intendorName === ""
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base hover:cursor-pointer ${intendorName === ""
                 ? "text-gray-400"
                 : "text-white"
                 }`}
@@ -288,7 +286,7 @@ const Dashboard = () => {
             </select>
 
             <select
-              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${projectNumber === ""
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base hover:cursor-pointer ${projectNumber === ""
                 ? "text-gray-400"
                 : "text-white"
                 }`}
@@ -305,7 +303,7 @@ const Dashboard = () => {
             </select>
 
             <select
-              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${poNumber === ""
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base hover:cursor-pointer ${poNumber === ""
                 ? "text-gray-400"
                 : "text-white"
                 }`}
@@ -322,14 +320,14 @@ const Dashboard = () => {
             </select>
 
             <select
-              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base ${equipmentType === ""
+              className={`w-full border rounded-lg border-gray-500 px-2 py-2 bg-[#27374D] outline-none focus:ring focus:ring-gray-400 text-xs sm:text-sm lg:text-base hover:cursor-pointer ${equipmentType === ""
                 ? "text-gray-400"
                 : "text-white"
                 }`}
               value={equipmentType}
               onChange={(e) => setEquipmentType(e.target.value)}
             >
-              <option value="">Equipment Type</option>
+              <option value="" disabled>Equipment Type</option>
               <option value="Lab Equipment">Lab Equipment</option>
               <option value="Furniture">Furniture</option>
               <option value="Computer/Server">Computer/Server</option>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import API from '../api/api.js'
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/IITKLOGO.png"
 
 
 const Header = () => {
@@ -51,7 +52,7 @@ const Header = () => {
                                 {/* Header */}
                                 <div className="flex items-center justify-between border-b px-6 pt-4">
                                     <h2 className="text-xl font-bold text-gray-800">
-                                        User Profile
+                                        Profile Detail
                                     </h2>
                                    
 
@@ -141,7 +142,7 @@ const Header = () => {
             </div>
             <div className="flex items-center gap-3 md:gap-8 lg:gap-10 ">
                 <div><FaRegCircleUser className="text-lg md:text-2xl lg:text-4xl hover:cursor-pointer" onClick={() => setShowOverlay(true)} /></div>
-                <img src="src/assets/IITKLOGO.png" className="w-16 h-16 lg:w-20 lg:h-20 " />
+                <img src={logo} className="w-16 h-16 lg:w-20 lg:h-20 " />
             </div>
         </div>
     )
