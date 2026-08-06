@@ -87,7 +87,6 @@ const Login = () => {
                           focus:border-gray-500 hover:border-white/40 transition-colors duration-200"
                         />
                     </div>
-
                     {/* Password */}
                     <div className="flex flex-col gap-1.5">
                         <label className="text-white text-sm font-semibold">
@@ -107,7 +106,7 @@ const Login = () => {
 
                     {/* Login Button */}
                     <button
-                        onClick={onSubmit}
+                        type="submit"
                         className="w-full mt-2 py-2.5 rounded-lg border border-white/20 text-white
                         text-sm font-semibold hover:bg-gray-600 hover:gray-600
                         transition-all duration-300 cursor-pointer"
