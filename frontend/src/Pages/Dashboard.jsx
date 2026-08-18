@@ -5,6 +5,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CircularTextAnimation } from "../Components/SplashScreen";
 import API from '../api/api.js'
+import * as XLSX from "xlsx";
+import ExcelImport from "../Components/ExcelImport.jsx";
+
 
 const Dashboard = () => {
   const [tableData, setTableData] = useState([]);
@@ -24,6 +27,8 @@ const Dashboard = () => {
   const [fetchPO, setFetchPO] = useState([]);
   const [showOverlay, setShowOverlay] = useState(false);
   const [detailInfo, setDetailInfo] = useState(null);
+  const [showExcelImport, setShowExcelImport] = useState(false);
+
   const limit = 50;
 
   // This will fetch data
@@ -106,6 +111,13 @@ const Dashboard = () => {
   return (
     <div className="flex bg-[#27374D] text-white flex-col h-screen w-full">
       <Header />
+
+      {showExcelImport && (
+        <ExcelImport
+          detailInfo={detailInfo}
+          onClose={() => setShowExcelImport(false)}
+        />
+      )}
 
       {showOverlay && (
         <div className="fixed inset-0 z-50 bg-black/40 p-4 overflow-y-auto">
@@ -344,7 +356,7 @@ const Dashboard = () => {
                 onChange={(date) => setFromDate(date)}
                 dateFormat="dd-MM-yyyy"
                 placeholderText="dd-mm-yyyy"
-                className="w-full text-center border rounded-lg border-gray-500 py-2 outline-none focus:ring focus:ring-gray-400"
+                className="w-full px-2 border rounded-lg border-gray-500 py-2 outline-none focus:ring focus:ring-gray-400"
               />
             </div>
 
@@ -355,9 +367,18 @@ const Dashboard = () => {
                 dateFormat="dd-MM-yyyy"
                 placeholderText="dd-mm-yyyy"
                 minDate={fromDate}
-                className="w-full text-center border rounded-lg border-gray-500 py-2 outline-none focus:ring focus:ring-gray-400"
+                className="w-full px-2 border rounded-lg border-gray-500 py-2 outline-none focus:ring focus:ring-gray-400"
               />
             </div>
+
+          </div>
+
+          <div className="flex gap-3 w-full lg:w-[10%]">
+            
+            <button className="px-4 py-2 border border-gray-500 rounded-lg hover:bg-gray-500 transition-all duration-300 shrink-0 text-xs sm:text-sm lg:text-base hover:cursor-pointer"
+              onClick={() => setShowExcelImport(true)}>
+              Import from Excel
+            </button>
 
           </div>
 

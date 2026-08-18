@@ -300,4 +300,70 @@ router.post("/post-data", authenticateToken, async (req, res) => {
     }
 });
 
+// ================= Insert Data Through Excel =================
+router.post("/post-data-excel", authenticateToken, async (req, res) => {
+    const {
+        asset_code,
+        project_no,
+        po_no,
+        intendor_name,
+        technical_specification,
+        make,
+        model,
+        rating,
+        purchaseDate,
+        cost,
+        store_classification,
+        assignedTo,
+        location,
+        asset_classification,
+    } = req.body;
+
+    try {
+        await pool.query(
+            `INSERT INTO formdetails (
+                assetcode,
+                project_number,
+                po_number,
+                intendor_name,
+                technical_specification,
+                make,
+                model,
+                rating,
+                dateofpurchase,
+                costofstore,
+                classification_of_store,
+                assignedto,
+                location,
+                asset_classification
+            )
+            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
+            [
+                asset_code,
+                project_no,
+                po_no,
+                intendor_name,
+                technical_specification,
+                make,
+                model,
+                rating,
+                purchaseDate,
+                cost,
+                store_classification,
+                assignedTo,
+                location,
+                asset_classification,
+            ]
+        );
+
+        res.status(201).json({
+            message: "Data inserted successfully",
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: err.message });
+    }
+});
+
 export default router;
