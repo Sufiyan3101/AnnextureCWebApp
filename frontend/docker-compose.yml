@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: ../backend
+    container_name: annexturec-backend
+    environment:
+      DATABASE_URL: postgresql://postgres.kbgwgjxvjqsfpoqgbxrj:Kh%40nSufiyan@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: Kh@n
+      DB_NAME: postgres
+      PORT: 5000
+      JWT_SECRET: yASSET_MANAGEMENT_JWT_TOKEN_@$
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      args:
+        VITE_API_URL: /api/
+    container_name: annexturec-frontend
+    ports:
+      - "9000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
