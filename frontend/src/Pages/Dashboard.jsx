@@ -18,7 +18,6 @@ const Dashboard = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
-  const [srno, setSrno] = useState([]);
   const [intendorName, setIntendorName] = useState("");
   const [projectNumber, setProjectNumber] = useState("");
   const [poNumber, setPONumber] = useState("");
