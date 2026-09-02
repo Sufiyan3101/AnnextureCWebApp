@@ -1,7 +1,8 @@
 services:
   backend:
     build:
-      context: ../backend
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: annexturec-backend
     environment:
       DATABASE_URL: postgresql://postgres.kbgwgjxvjqsfpoqgbxrj:Kh%40nSufiyan@aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres
@@ -18,7 +19,8 @@ services:
 
   frontend:
     build:
-      context: .
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: annexturec-frontend
     ports:
       - "9000:80"
