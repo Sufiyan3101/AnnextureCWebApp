@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend-deployment
+  namespace: annexture-c-webapp
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+      - name: myapp
+        image: sufiyan3101/annexturec-backend:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: annexturec-secrets
+              key: DATABASE_URL
+
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: annexturec-secrets
+              key: PORT
+       
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: annexturec-secrets
+              key: JWT_SECRET

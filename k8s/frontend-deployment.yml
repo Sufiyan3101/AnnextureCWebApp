@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: frontend-deployment
+  namespace: annexture-c-webapp
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: frontend
+
+  template:
+    metadata:
+      labels:
+        app: frontend
+
+    spec:
+      containers:
+      - name: annexture-c-frontend
+
+        image: sufiyan3101/annexturec-frontend
+      
+        ports:
+        - containerPort: 80
+
