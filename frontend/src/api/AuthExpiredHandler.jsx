@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AuthExpiredHandler = () => {
+const AuthExpiredHandler = ({ children }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ const AuthExpiredHandler = () => {
         return () => window.removeEventListener("auth-expired", handleAuthExpired);
     }, [navigate]);
 
-    return null;
+    return children;
 };
 
 export default AuthExpiredHandler;
