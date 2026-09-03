@@ -6,6 +6,7 @@ import { SplashScreen } from "./Components/SplashScreen";
 import Login from "./Pages/Login";
 import ProtectedRoute from "./api/protected_routes";
 import CreateUser from "./Admin/CreateUser";
+import AuthExpiredHandler from "./api/AuthExpiredHandler";
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -28,35 +29,37 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+      <AuthExpiredHandler>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/form"
-          element={
-            <ProtectedRoute>
-              <Form />
-            </ProtectedRoute>
-          }
-        />
+          <Route
+            path="/form"
+            element={
+              <ProtectedRoute>
+                <Form />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="/user-create"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <CreateUser />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+          <Route
+            path="/user-create"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <CreateUser />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </AuthExpiredHandler>
     </BrowserRouter>
   )
 }

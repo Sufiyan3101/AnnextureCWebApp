@@ -16,7 +16,7 @@ API.interceptors.response.use(
     (response) => response,
     (error) => {
         const status = error.response?.status;
-        const code = error.response?.data?.code; // e.g. "TOKEN_INVALID" vs "FORBIDDEN_ROLE"
+        const code = error.response?.data?.code;
 
         const isAuthFailure =
             status === 401 ||
@@ -25,7 +25,7 @@ API.interceptors.response.use(
         if (isAuthFailure) {
             localStorage.removeItem("token");
             localStorage.removeItem("role");
-            window.location.href = "/login";
+            window.dispatchEvent(new Event("auth-expired"));
         }
 
         return Promise.reject(error);
