@@ -13,7 +13,7 @@ server {
 
     # Backend API
    location /api/ {
-    proxy_pass http://backend:5000/;  # If u want to run through docker use this -- proxy_pass http://backend:5000/; -- and build image
+    proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT}/;  # If u want to run through docker use this -- proxy_pass http://backend:5000/; -- and build image
     proxy_http_version 1.1;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;

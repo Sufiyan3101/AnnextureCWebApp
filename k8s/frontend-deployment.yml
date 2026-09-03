@@ -25,4 +25,8 @@ spec:
       
         ports:
         - containerPort: 80
-
+        env:
+        - name: BACKEND_HOST
+          value: "backend-service"
+        - name: BACKEND_PORT
+          value: "5000"
