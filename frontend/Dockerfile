@@ -7,6 +7,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx:alpine
+RUN apk update && apk upgrade
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 EXPOSE 80
