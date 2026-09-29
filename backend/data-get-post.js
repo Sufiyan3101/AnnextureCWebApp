@@ -383,4 +383,89 @@ router.post("/post-data-excel", authenticateToken, async (req, res) => {
     }
 });
 
+router.put("/update-data/:id", authenticateToken, async (req, res) => {
+    const { id } = req.params;
+
+    const {
+        asset_code,
+        project_no,
+        po_no,
+        intendor_name,
+        technical_specification,
+        make,
+        model,
+        rating,
+        purchaseDate,
+        cost,
+        store_classification,
+        assignedTo,
+        location,
+        asset_classification,
+    } = req.body;
+
+    if (!id) {
+        return res.status(400).json({
+            error: "Record ID is required",
+        });
+    }
+
+    try {
+        const result = await pool.query(
+            `UPDATE formdetails
+             SET
+                assetcode = $1,
+                project_number = $2,
+                po_number = $3,
+                intendor_name = $4,
+                technical_specification = $5,
+                make = $6,
+                model = $7,
+                rating = $8,
+                dateofpurchase = $9,
+                costofstore = $10,
+                classification_of_store = $11,
+                assignedto = $12,
+                location = $13,
+                asset_classification = $14
+             WHERE id = $15
+             RETURNING *`,
+            [
+                asset_code,
+                project_no,
+                po_no,
+                intendor_name,
+                technical_specification,
+                make,
+                model,
+                rating,
+                purchaseDate,
+                cost,
+                store_classification,
+                assignedTo,
+                location,
+                asset_classification,
+                id,
+            ]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                error: "Record not found",
+            });
+        }
+
+        res.status(200).json({
+            message: "Data updated successfully",
+            data: result.rows[0],
+        });
+
+    } catch (err) {
+        console.error("Update error:", err);
+
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+});
+
 export default router;

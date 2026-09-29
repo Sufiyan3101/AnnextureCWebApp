@@ -27,6 +27,9 @@ const Dashboard = () => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [detailInfo, setDetailInfo] = useState(null);
   const [showExcelImport, setShowExcelImport] = useState(false);
+  const [showUpdateOverlay, setShowUpdateOverlay] = useState(false);
+  const [updateData, setUpdateData] = useState({});
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const limit = 50;
 
@@ -107,6 +110,81 @@ const Dashboard = () => {
     setShowOverlay(true);
   }
 
+  const handleUpdateChange = (e) => {
+    const { name, value } = e.target;
+
+    setUpdateData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdate = (asset) => {
+    setUpdateData({
+      id: asset.id,
+
+      asset_code: asset.assetcode || "",
+      project_no: asset.project_number || "",
+      po_no: asset.po_number || "",
+      intendor_name: asset.intendor_name || "",
+      purchaseDate: asset.dateofpurchase
+        ? asset.dateofpurchase.split("T")[0]
+        : "",
+      technical_specification: asset.technical_specification || "",
+      make: asset.make || "",
+      model: asset.model || "",
+      rating: asset.rating || "",
+      asset_classification: asset.asset_classification || "",
+      cost: asset.costofstore || "",
+      store_classification: asset.classification_of_store || "",
+      assignedTo: asset.assignedto || "",
+      location: asset.location || "",
+    });
+
+    setShowUpdateOverlay(true);
+  };
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!updateData.id) {
+      alert("Record ID is missing");
+      return;
+    }
+
+    try {
+      setIsUpdating(true);
+
+      const res = await API.put(
+        `/update-data/${updateData.id}`,
+        updateData
+      );
+
+      console.log("Update response:", res.data);
+
+      alert("Data updated successfully");
+
+      // Close update overlay
+      setShowUpdateOverlay(false);
+
+      // Refresh your table
+      await fetchData();
+
+    } catch (err) {
+      console.error("Update error:", err);
+
+      alert(
+        err.response?.data?.error ||
+        "Failed to update data"
+      );
+
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+
+
   return (
     <div className="flex bg-[#27374D] text-white flex-col h-screen w-full">
       <Header />
@@ -116,6 +194,326 @@ const Dashboard = () => {
           detailInfo={detailInfo}
           onClose={() => setShowExcelImport(false)}
         />
+      )}
+
+      {showUpdateOverlay && (
+        <div className="fixed inset-0 z-50 bg-black/40 p-4 overflow-y-auto">
+
+          <div className="flex min-h-full items-start sm:items-center justify-center py-6">
+
+            <div className="relative w-full max-w-3xl rounded-2xl bg-white shadow-2xl max-h-[90vh] flex flex-col">
+
+              {/* Header */}
+              <div className="flex items-center justify-between border-b px-6 py-4 shrink-0">
+
+                <h2 className="text-xl font-bold text-gray-800">
+                  Update Asset Information
+                </h2>
+
+                <button
+                  onClick={() => setShowUpdateOverlay(false)}
+                  className="rounded-lg px-3 py-1 text-xl font-bold text-gray-500 hover:bg-gray-100"
+                >
+                  ✕
+                </button>
+
+              </div>
+
+
+              {/* Scrollable Content */}
+              <form
+                onSubmit={handleUpdateSubmit}
+                className="overflow-y-auto pl-6 pr-6 pb-6 pt-4"
+              >
+
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
+
+
+                  {/* Asset Code */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Asset code :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="asset_code"
+                      value={updateData.asset_code || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Project Number */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Project number :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="project_no"
+                      value={updateData.project_no || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* PO Number */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      PO number :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="po_no"
+                      value={updateData.po_no || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Intendor Name */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Intendor name :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="intendor_name"
+                      value={updateData.intendor_name || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Date of Purchase */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Date of purchase :
+                    </p>
+
+                    <input
+                      type="date"
+                      name="purchaseDate"
+                      value={updateData.purchaseDate || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+                  {/* Make */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Make :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="make"
+                      value={updateData.make || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Particular of Asset */}
+                  <div className="rounded-xl border p-2 sm:col-span-3 md:col-span-3">
+
+                    <p className="text-sm text-gray-500">
+                      Particular of asset :
+                    </p>
+
+                    <textarea
+                      name="technical_specification"
+                      value={updateData.technical_specification || ""}
+                      onChange={handleUpdateChange}
+                      rows={2}
+                      className="mt-1 w-full resize-none rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  
+
+
+                  {/* Model */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Model :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="model"
+                      value={updateData.model || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Rating */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Rating :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="rating"
+                      value={updateData.rating || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Asset Classification */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Asset classification :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="asset_classification"
+                      value={updateData.asset_classification || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Cost */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Cost of store :
+                    </p>
+
+                    <input
+                      type="number"
+                      name="cost"
+                      value={updateData.cost || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Classification of Store */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Classification of store :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="store_classification"
+                      value={updateData.store_classification || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Assigned To */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Assigned To :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="assignedTo"
+                      value={updateData.assignedTo || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+
+                  {/* Location */}
+                  <div className="rounded-xl border p-2">
+
+                    <p className="text-sm text-gray-500">
+                      Location :
+                    </p>
+
+                    <input
+                      type="text"
+                      name="location"
+                      value={updateData.location || ""}
+                      onChange={handleUpdateChange}
+                      className="mt-1 w-full rounded-md border px-2 py-1 font-semibold text-gray-800 outline-none focus:ring-2 focus:ring-slate-400"
+                    />
+
+                  </div>
+
+                </div>
+
+
+                {/* Buttons */}
+                <div className="flex justify-end gap-3 mt-6 border-t pt-4">
+
+                  <button
+                    type="button"
+                    onClick={() => setShowUpdateOverlay(false)}
+                    disabled={isUpdating}
+                    className="rounded-lg border px-5 py-2 font-medium text-gray-700 hover:bg-gray-100 disabled:opacity-50"
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={isUpdating}
+                    className="rounded-lg bg-slate-800 px-5 py-2 font-medium text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {isUpdating ? "Updating..." : "Update"}
+                  </button>
+
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
       )}
 
       {showOverlay && (
@@ -178,7 +576,9 @@ const Dashboard = () => {
                       <div className="rounded-xl border p-1">
                         <p className="text-sm text-gray-500">Date of purchase : </p>
                         <p className="mt-1 font-semibold text-gray-800">
-                          {detailInfo?.dateofpurchase.split("T")[0] || "Not defined"}
+                          {detailInfo?.dateofpurchase
+                            ? detailInfo.dateofpurchase.split("T")[0]
+                            : "Not defined"}
                         </p>
                       </div>
 
@@ -373,7 +773,7 @@ const Dashboard = () => {
           </div>
 
           <div className="flex gap-3 w-full lg:w-[10%]">
-            
+
             <button className="px-4 py-2 border border-gray-500 rounded-lg hover:bg-gray-500 transition-all duration-300 shrink-0 text-xs sm:text-sm lg:text-base hover:cursor-pointer"
               onClick={() => setShowExcelImport(true)}>
               Import from Excel
@@ -454,9 +854,17 @@ const Dashboard = () => {
                         {row.assignedto}
                       </td>
                       <td className="px-3 py-2 min-w-24 border-r border-gray-500">{row.location}</td>
-                      <td className="px-3 py-2 min-w-24">
-                        <button className="border px-3 py-0.5 rounded-md hover:bg-slate-800 hover:cursor-pointer transition-all duration-300" onClick={() => handleView(row)
-                        }>View</button>
+                      <td className="px-3 py-2  min-w-24 ">
+                        <div className="flex gap-2.5 justify-center items-center">
+                          <button className="border px-2 py-0.5 rounded-md hover:bg-slate-800 hover:cursor-pointer hover:border-slate-800 transition-all duration-300" onClick={() => handleView(row)
+                          }>View</button>
+                          <button
+                            className="border px-2 py-0.5 rounded-md hover:bg-green-800 hover:cursor-pointer hover:border-green-800 transition-all duration-300"
+                            onClick={() => handleUpdate(row)}
+                          >
+                            Update
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
