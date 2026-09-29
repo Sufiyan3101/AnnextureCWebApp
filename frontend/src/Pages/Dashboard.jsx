@@ -32,6 +32,7 @@ const Dashboard = () => {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const limit = 50;
+  const role = localStorage.getItem("role");
 
   // This will fetch data
   const fetchData = async () => {
@@ -354,7 +355,7 @@ const Dashboard = () => {
                   </div>
 
 
-                  
+
 
 
                   {/* Model */}
@@ -691,9 +692,8 @@ const Dashboard = () => {
               onChange={(e) => setIntendorName(e.target.value)}
             >
               <option value="">Intendor Name</option>
+              <option value="Ankush sir">Ankush sir</option>
               <option value="Shiv sir">Shiv sir</option>
-              <option value="Praveen sir">Praveen sir</option>
-              <option value="Nikhil sir">Nikhil sir</option>
             </select>
 
             <select
@@ -858,12 +858,14 @@ const Dashboard = () => {
                         <div className="flex gap-2.5 justify-center items-center">
                           <button className="border px-2 py-0.5 rounded-md hover:bg-slate-800 hover:cursor-pointer hover:border-slate-800 transition-all duration-300" onClick={() => handleView(row)
                           }>View</button>
-                          <button
-                            className="border px-2 py-0.5 rounded-md hover:bg-green-800 hover:cursor-pointer hover:border-green-800 transition-all duration-300"
-                            onClick={() => handleUpdate(row)}
-                          >
-                            Update
-                          </button>
+                          {role === "admin" && (
+                            <button
+                              className="border px-2 py-0.5 rounded-md hover:bg-green-800 hover:text-white hover:cursor-pointer hover:border-green-800 transition-all duration-300"
+                              onClick={() => handleUpdate(row)}
+                            >
+                              Update
+                            </button>
+                          )}
                         </div>
                       </td>
                     </tr>
